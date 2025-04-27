@@ -91,6 +91,7 @@ Maintained by [Maksuda Akter Suborno].
 ## 🟢 Basics
 
 ### 1. What are the different data types in JavaScript?
+<a id="what-are-the-different-data-types-in-javascript"></a>
 JavaScript provides different data types including:
 - Primitive types: String, Number, Boolean, Null, Undefined, Symbol, BigInt
 - Non-primitive types: Objects (including Arrays, Functions, etc.)
