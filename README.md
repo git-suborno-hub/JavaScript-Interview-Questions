@@ -144,7 +144,7 @@ The === operator compares both value and type. It does not perform type coercion
 ---
 
 ### 6. How do functions work in JavaScript?
-<a id="how-do-functions-work-in-javascript></a>
+<a id="how-do-functions-work-in-javascript"></a>
 
 In JavaScript, functions are blocks of code designed to perform a particular task. You define a function once, and then you can execute (call) it whenever you want. 
 - Defining a Function
@@ -153,6 +153,7 @@ You can define a function in JavaScript using the function keyword followed by t
 function greet(name) {
   console.log('Hello, ' + name + '!');
 }
+```
 In this example, the function is named greet, and it takes one parameter (name). Inside the function body, it prints a greeting message to the console.
 
 
