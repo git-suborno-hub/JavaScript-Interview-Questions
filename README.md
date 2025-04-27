@@ -156,6 +156,165 @@ function greet(name) {
 ```
 In this example, the function is named greet, and it takes one parameter (name). Inside the function body, it prints a greeting message to the console.
 
+---
+
+### 7. Function declarations vs. expressions
+<a id="function-declarations-vs-expressions"></a>
+
+Function Declarations:
+
+- Defined using the function keyword followed by the function name.
+
+- Hoisted, meaning they can be called before they are defined in the code.
+
+```
+function greet() {
+  console.log('Hello!');
+}
+```
+
+Function Expressions:
+
+- Defined as part of an expression (can be anonymous or named).
+
+- Not hoisted; they must be defined before being called.
+
+```
+const greet = function() {
+  console.log('Hello!');
+};
+```
+
+---
+
+### 8. Arrow functions vs. regular functions
+<a id="arrow-functions-vs-regular-functions"></a>
+
+Arrow Functions:
+
+- Shorter syntax: () => {}.
+
+- Do not have their own 'this'; they inherit this from the surrounding context (lexical scoping).
+
+- Cannot be used as constructors (i.e., they don’t support new keyword).
+
+- Cannot have the arguments object.
+
+```
+const greet = (name) => console.log('Hello, ' + name);
+```
+
+Regular Functions:
+
+- Use the function keyword and have their own 'this'.
+
+- Can be used as constructors (with new keyword).
+
+- Have their own arguments object.
+
+```
+function greet(name) {
+  console.log('Hello, ' + name);
+}
+```
+
+---
+
+### 9. What is the value of `this` in different contexts?
+<a id="what-is-the-value-of-this-in-different-contexts"></a>
+The value of this in JavaScript varies depending on the context in which it is used.
+
+Global Context (Outside any function or object):
+- In non-strict mode, 'this' refers to the global object (window in browsers or global in Node.js).
+
+- In strict mode, this is undefined.
+
+```
+console.log(this); // In non-strict mode: window (browser)
+```
+
+Function Context:
+- In a regular function, 'this' refers to the global object in non-strict mode and undefined in strict mode.
+
+```
+function example() {
+  console.log(this); // Non-strict: global object, strict: undefined
+}
+example();
+
+```
+
+Method Context (Inside an object):
+- Inside a method of an object, this refers to the object that the method is called on.
+
+```
+const person = {
+  name: 'Alice',
+  greet: function() {
+    console.log(this.name); // 'this' refers to 'person'
+  }
+};
+person.greet(); // Output: Alice
+```
+
+Arrow Functions:
+- Arrow functions do not have their own 'this'. Instead, they inherit 'this' from their enclosing lexical context (the scope in which they were defined).
+
+```
+const person = {
+  name: 'Alice',
+  greet: () => {
+    console.log(this.name); // 'this' refers to the outer context, not 'person'
+  }
+};
+person.greet(); // Output: undefined (if in global scope)
+```
+
+Constructor Functions:
+- When using a constructor function (called with new), this refers to the newly created object.
+
+```
+function Person(name) {
+  this.name = name;
+}
+const person1 = new Person('Alice');
+console.log(person1.name); // Output: Alice
+```
+
+Event Handlers:
+- In event handlers, 'this' refers to the DOM element that the event is triggered on.
+
+```
+const button = document.querySelector('button');
+button.addEventListener('click', function() {
+  console.log(this); // 'this' refers to the button element
+});
+
+```
+
+Explicit Binding (call(), apply(), bind()):
+- You can explicitly bind this to any value using call(), apply(), or bind().
+
+```
+function greet() {
+  console.log(this.name);
+}
+
+const person = { name: 'Alice' };
+greet.call(person); // Output: Alice
+```
+
+---
+
+### 10. What is hoisting?
+<a id="what-is-hoisting"></a>
+
+Hoisting in JavaScript refers to the behavior where declarations (but not initializations) of variables and functions are moved to the top of their containing scope during the execution phase, before any code is actually run. This allows you to reference variables or call functions before they are defined in the code.
+
+- Variables: var declarations are hoisted (initialized as undefined), while let and const are hoisted but not initialized.
+- Functions: Function declarations are hoisted with their implementation, but function expressions are hoisted only with the variable declaration, causing errors if called before assignment.
+
+---
 
 
 
