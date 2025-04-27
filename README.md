@@ -496,5 +496,119 @@ In this example, if <b>greet()</b> is called without an argument, <b>name</b> wi
 
 ---
 
+## ⚙️ Functions & Scope
+
+### 16. What is a higher-order function?
+<a id="what-is-a-higher-order-function"></a>
+
+A higher-order function in JavaScript is a function that either:
+
+- Takes one or more functions as arguments, or
+
+- Returns a function as a result.
+
+In other words, a higher-order function can either accept a function as an input or output a function.
+Higher-order functions are common in JavaScript, especially in functions like <b>map</b>, <b>filter</b>, and <b>reduce</b>, which take a function as an argument to operate on arrays.
+
+---
+
+### 17. What is a closure?
+<a id="what-is-a-closure"></a>
+
+- A closure in JavaScript refers to a function that retains access to variables from its lexical scope (the scope in which it was defined), even after that scope has finished executing.
+
+- In simpler terms, a closure allows a function to "remember" the environment in which it was created, even if it is called outside that environment.
+
+Example of Closure
+```javascript
+function outerFunction(outerVariable) {
+  return function innerFunction(innerVariable) {
+    console.log("Outer variable: " + outerVariable); // Can access outerVariable
+    console.log("Inner variable: " + innerVariable);
+  };
+}
+
+const closureExample = outerFunction('I am outside!');
+closureExample('I am inside!');
+// Output:
+// Outer variable: I am outside!
+// Inner variable: I am inside!
+```
+
+In this example:
+
+<b>outerFunction</b> defines a variable <b>outerVariable</b> and returns <b>innerFunction</b>.
+
+Even though <b>outerFunction</b> finishes executing when <b>closureExample</b> is called, the <b>innerFunction</b> still has access to <b>outerVariable</b> because of the closure.
+
+Why Closures are Useful:
+
+- Data encapsulation: Closures allow you to create private variables, which cannot be accessed directly from outside the closure but can still be manipulated through the returned function.
+
+- Maintaining state: Closures are often used in situations like event handlers, callbacks, or managing states in asynchronous operations.
+
+Key Points of Closures:
+1. Function inside a function: Closures typically occur when a function is defined inside another function.
+
+2. Access to outer function variables: The inner function has access to variables from its outer function, even after the outer function has executed and returned.
+
+---
+
+### 18. What is currying?
+<a id="what-is-currying"></a>
+
+Currying is a technique in JavaScript (and other programming languages) where a function that takes multiple arguments is transformed into a sequence of functions, each taking one argument. Instead of calling the function with all its arguments at once, you call it with one argument, and it returns a new function that takes the next argument, and so on, until all arguments are provided.
+
+- How Currying Works:
+A curried function breaks down a function that takes multiple arguments into a series of unary (one-argument) functions.
+
+- Example of Currying:
+Let's look at a simple example of a curried function:
+```javascript
+
+function add(a) {
+  return function(b) {
+    return a + b;
+  };
+}
+
+const addFive = add(5); // Returns a function that adds 5 to its argument
+console.log(addFive(3)); // Output: 8
+console.log(addFive(10)); // Output: 15
+```
+Currying with Multiple Arguments:
+You can also curry a function with multiple arguments. Here's a more general approach using currying:
+
+```javascript
+function multiply(a) {
+  return function(b) {
+    return function(c) {
+      return a * b * c;
+    };
+  };
+}
+
+const result = multiply(2)(3)(4); // Output: 24
+console.log(result);
+```
+Here, the multiply function is curried so that:
+
+- multiply(2) returns a function that takes b.
+
+- That returned function then returns another function that takes c.
+
+- Finally, the result of a * b * c is computed when all arguments are provided.
+
+Why Use Currying?
+- Reusability: You can create more specialized functions by fixing some of the arguments.
+
+- Partial application: Currying allows you to provide arguments incrementally, which can be useful when you want to apply certain arguments in advance and provide the rest later.
+
+- Cleaner code: Currying makes code more modular and can be used for better code composition in functional programming styles.
+
+---
+
+
+
 
 
