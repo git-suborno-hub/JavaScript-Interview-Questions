@@ -147,14 +147,57 @@ The === operator compares both value and type. It does not perform type coercion
 <a id="how-do-functions-work-in-javascript"></a>
 
 In JavaScript, functions are blocks of code designed to perform a particular task. You define a function once, and then you can execute (call) it whenever you want. 
-- Defining a Function
+- Defining a Function: 
 You can define a function in JavaScript using the function keyword followed by the function name, parameters (optional), and a block of code.
 ```javascript
 function greet(name) {
   console.log('Hello, ' + name + '!');
 }
 ```
-In this example, the function is named greet, and it takes one parameter (name). Inside the function body, it prints a greeting message to the console.
+In this example, the function is named 'greet', and it takes one parameter (name). Inside the function body, it prints a greeting message to the console.
+
+- Calling a Function: 
+To call a function, you use its name followed by parentheses, passing any required arguments inside the parentheses.
+
+```javascript
+greet('Alice');  // Output: Hello, Alice!
+greet('Bob');    // Output: Hello, Bob!
+```
+
+- Return Values:
+Functions can return values using the 'return' keyword. When a function returns a value, it can be used in other expressions.
+```javascript
+function add(a, b) {
+  return a + b;
+}
+
+let sum = add(3, 4);  // sum = 7
+console.log(sum);      // Output: 7
+```
+
+- Function Expressions: 
+You can also define functions as expressions. This is common for passing functions as arguments or returning them from other functions. Here’s an example:
+```javascript
+const multiply = function(a, b) {
+  return a * b;
+};
+
+console.log(multiply(2, 5));  // Output: 10
+```
+
+- Arrow Functions:
+ES6 introduced arrow functions, which are a shorter syntax for writing functions. Arrow functions are particularly useful for short functions and when you want to avoid issues with the 'this' keyword.
+```javascript
+const square = (x) => x * x;
+console.log(square(5));  // Output: 25
+```
+
+Parameters and Arguments: 
+- Parameters are the names used in the function definition (like name in the greet function).
+
+- Arguments are the values passed into the function when calling it (like 'Alice' or 'Bob' in the example above).
+
+You can have default parameters, rest parameters, and even handle arguments using the arguments object for non-named parameters.
 
 ---
 
@@ -167,7 +210,7 @@ Function Declarations:
 
 - Hoisted, meaning they can be called before they are defined in the code.
 
-```
+```javascript
 function greet() {
   console.log('Hello!');
 }
@@ -179,7 +222,7 @@ Function Expressions:
 
 - Not hoisted; they must be defined before being called.
 
-```
+```javascript
 const greet = function() {
   console.log('Hello!');
 };
@@ -200,7 +243,7 @@ Arrow Functions:
 
 - Cannot have the arguments object.
 
-```
+```javascript
 const greet = (name) => console.log('Hello, ' + name);
 ```
 
@@ -212,7 +255,7 @@ Regular Functions:
 
 - Have their own arguments object.
 
-```
+```javascript
 function greet(name) {
   console.log('Hello, ' + name);
 }
@@ -229,14 +272,14 @@ Global Context (Outside any function or object):
 
 - In strict mode, this is undefined.
 
-```
+```javascript
 console.log(this); // In non-strict mode: window (browser)
 ```
 
 Function Context:
 - In a regular function, 'this' refers to the global object in non-strict mode and undefined in strict mode.
 
-```
+```javascript
 function example() {
   console.log(this); // Non-strict: global object, strict: undefined
 }
@@ -247,7 +290,7 @@ example();
 Method Context (Inside an object):
 - Inside a method of an object, this refers to the object that the method is called on.
 
-```
+```javascript
 const person = {
   name: 'Alice',
   greet: function() {
@@ -260,7 +303,7 @@ person.greet(); // Output: Alice
 Arrow Functions:
 - Arrow functions do not have their own 'this'. Instead, they inherit 'this' from their enclosing lexical context (the scope in which they were defined).
 
-```
+```javascript
 const person = {
   name: 'Alice',
   greet: () => {
@@ -273,7 +316,7 @@ person.greet(); // Output: undefined (if in global scope)
 Constructor Functions:
 - When using a constructor function (called with new), this refers to the newly created object.
 
-```
+```javascript
 function Person(name) {
   this.name = name;
 }
@@ -284,7 +327,7 @@ console.log(person1.name); // Output: Alice
 Event Handlers:
 - In event handlers, 'this' refers to the DOM element that the event is triggered on.
 
-```
+```javascript
 const button = document.querySelector('button');
 button.addEventListener('click', function() {
   console.log(this); // 'this' refers to the button element
@@ -295,7 +338,7 @@ button.addEventListener('click', function() {
 Explicit Binding (call(), apply(), bind()):
 - You can explicitly bind this to any value using call(), apply(), or bind().
 
-```
+```javascript
 function greet() {
   console.log(this.name);
 }
