@@ -120,35 +120,41 @@ There are two types of type coercion:
 
 ### 4. What are truthy and falsy values?
 <a id="what-are-truthy-and-falsy-values"></a>
--- Falsy Values:
+- Falsy Values:
 These are the values that are considered false when coerced into a Boolean. There are only 6 falsy values in JavaScript:
 
--false (the Boolean false)
+-false (the Boolean false), 0 (zero), "" (empty string), null, undefined, NaN (Not-a-Number)
 
--0 (zero)
-
--"" (empty string)
-
--null
-
--undefined
-
--NaN (Not-a-Number)
-
---Truthy Values:
+- Truthy Values:
 All values except the falsy ones are considered truthy. This means that any value that is not falsy will be treated as true in a Boolean context.
 
--For example:
+-For example: Non-empty strings (e.g., "Hello"), Non-zero numbers (e.g., 1, -1, 3.14), Objects (including arrays, functions, etc.), true (the Boolean true), Infinity (positive and negative infinity), Dates (e.g., new Date())
 
-Non-empty strings (e.g., "Hello")
+---
 
-Non-zero numbers (e.g., 1, -1, 3.14)
+### 5. Difference between == and ===
+<a id="difference-between--and-"></a>
+In JavaScript, == and === are comparison operators used to compare values, but they behave differently:
 
-Objects (including arrays, functions, etc.)
+- == (Equality/Loose Comparison):
+The == operator compares two values for equality after performing type coercion (i.e., it converts the values to a common type before making the comparison).
+- === (Strict Equality/Strict Comparison):
+The === operator compares both value and type. It does not perform type coercion, meaning both the values and their types must be the same for the comparison to return true.
 
-true (the Boolean true)
+---
 
-Infinity (positive and negative infinity)
+### 6. How do functions work in JavaScript?
+<a id="how-do-functions-work-in-javascript></a>
 
-Dates (e.g., new Date())
+In JavaScript, functions are blocks of code designed to perform a particular task. You define a function once, and then you can execute (call) it whenever you want. 
+- Defining a Function
+You can define a function in JavaScript using the function keyword followed by the function name, parameters (optional), and a block of code.
+```javascript
+function greet(name) {
+  console.log('Hello, ' + name + '!');
+}
+In this example, the function is named greet, and it takes one parameter (name). Inside the function body, it prints a greeting message to the console.
+
+
+
 
