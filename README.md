@@ -99,8 +99,56 @@ JavaScript provides different data types including:
 ---
 
 ### 2. Difference between var, let, and const
+<a id="difference-between-var-let-and-const"></a>
 - `var` is function-scoped, can be re-declared and updated.
 - `let` is block-scoped, can be updated but not re-declared in the same scope.
 - `const` is block-scoped, cannot be updated or re-declared after initialization.
 
 ---
+
+### 3. How does type coercion work?
+<a id="how-does-type-coercion-work"></a>
+- Type coercion in JavaScript refers to the automatic or implicit conversion of one data type to another. This occurs when JavaScript expects a value of a certain type but encounters a different one, and the language tries to convert it to the expected type.
+
+There are two types of type coercion:
+
+- Implicit Coercion: Automatically done by JavaScript when an operation involves different types.
+
+- Explicit Coercion: When you manually convert one type to another using functions like String(), Number(), Boolean(), etc.
+
+---
+
+### 4. What are truthy and falsy values?
+<a id="what-are-truthy-and-falsy-values"></a>
+-- Falsy Values:
+These are the values that are considered false when coerced into a Boolean. There are only 6 falsy values in JavaScript:
+
+-false (the Boolean false)
+
+-0 (zero)
+
+-"" (empty string)
+
+-null
+
+-undefined
+
+-NaN (Not-a-Number)
+
+--Truthy Values:
+All values except the falsy ones are considered truthy. This means that any value that is not falsy will be treated as true in a Boolean context.
+
+-For example:
+
+Non-empty strings (e.g., "Hello")
+
+Non-zero numbers (e.g., 1, -1, 3.14)
+
+Objects (including arrays, functions, etc.)
+
+true (the Boolean true)
+
+Infinity (positive and negative infinity)
+
+Dates (e.g., new Date())
+
