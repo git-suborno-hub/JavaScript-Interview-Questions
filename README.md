@@ -359,5 +359,142 @@ Hoisting in JavaScript refers to the behavior where declarations (but not initia
 
 ---
 
+### 11. What is lexical scope?
+<a id="what-is-lexical-scope"></a>
+
+-Lexical scope in JavaScript means that a function's ability to access variables is determined by where it was physically written in the code.
+
+- In other words, when you write a function, it "remembers" the environment where it was created, and it can access variables from that environment.
+
+```javascript
+function outer() {
+  let outerVar = "I am from outer!";
+
+  function inner() {
+    console.log(outerVar); // ✅ inner can access outerVar
+  }
+
+  inner();
+}
+
+outer();
+```
+- inner() can access outerVar because it was written inside outer().
+
+- That's lexical scope — based on the position of code, not on how or where the function is called later.
+
+Key point:
+- JavaScript looks at where a function was defined, not where it was called.
+
+---
+
+### 12. Arrays vs. objects
+<a id="arrays-vs-objects"></a>
+
+Arrays
+- Used to store ordered collections of items.
+
+- Items are accessed using numeric indexes (starting from 0).
+
+- Best for lists, queues, stacks, or sequences.
+
+- Comes with many built-in methods like push(), pop(), map(), filter(), etc.
+
+Example:
+
+```javascript
+let colors = ["red", "green", "blue"];
+console.log(colors[1]); // green
+```
+
+Objects
+
+- Used to store key-value pairs.
+
+- Keys are strings (or symbols), not numbers.
+
+- Best for representing entities with properties (like a user, product, or settings).
+
+- Comes with methods like Object.keys(), Object.values(), and Object.entries().
+
+- Example:
+
+```javascript
+let car = { brand: "Toyota", color: "white" };
+console.log(car.brand); // Toyota
+```
+
+---
+
+### 13. What is Template literals?
+<a id="template-literals"></a>
+
+- Template literals are a way to create strings in JavaScript.
+
+- They are written using backticks ` instead of single ' ' or double quotes " ".
+
+- They allow:
+
+Multiline strings easily (no need for \n).
+
+Embedding variables directly into the string using ${}.
+
+More readable and flexible string building.
+
+- Normal String:
+```javascript
+let name = "John";
+let greeting = "Hello, " + name + "!";
+console.log(greeting); // Hello, John!
+```
+
+- Template literal:
+```javascript
+let name = "John";
+let greeting = `Hello, ${name}!`;
+console.log(greeting); // Hello, John!
+```
+
+- Multiline with template literals:
+```javascript
+let text = `This is line one
+This is line two
+This is line three`;
+console.log(text);
+```
+- Template literals make it easier and cleaner to work with strings, especially when you need to mix variables or write multiple lines.
+
+---
+
+### 14. What is Destructuring?
+<a id="destructuring"></a>
+
+- Destructuring is a convenient way to extract values from arrays or properties from objects and assign them to variables in a more readable and concise way.
+- Array destructuring lets you pull values from arrays based on position.
+- Object destructuring lets you pull properties from objects based on property names.
+- It makes your code more concise and easier to read.
+
+---
+
+### 15. Default parameters in functions
+<a id="default-parameters-in-functions"></a>
+Default parameters allow you to set default values for function parameters if the caller does not provide them.
+
+- If the caller does not pass an argument for a parameter, the default value is used.
+
+- This helps to avoid undefined values and makes the function more robust.
+
+```javascript
+function greet(name = "Guest") {
+  console.log(`Hello, ${name}!`);
+}
+
+greet();          // Hello, Guest!
+greet("Alice");   // Hello, Alice!
+```
+In this example, if <b>greet()</b> is called without an argument, <b>name</b> will default to <b>"Guest"</b>.
+
+---
+
 
 
