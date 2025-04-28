@@ -608,7 +608,196 @@ Why Use Currying?
 
 ---
 
+### 19. What is a callback function?
+<a id="what-is-a-callback-function"></a>
 
+A callback function is simply a function that you pass as an argument to another function, and then the other function calls (executes) it later.
+
+It’s called a “callback” because the main function calls it back at the right time.
+
+```javascript
+function greet(name) {
+  console.log('Hello, ' + name + '!');
+}
+
+function processUserInput(callback) {
+  const name = 'Alice';
+  callback(name);  // calling the function passed as argument
+}
+
+processUserInput(greet);
+```
+- Here, 'greet' is a callback.
+
+- 'processUserInput' takes a function (callback) and calls it.
+
+- In short:
+
+A callback is a function passed into another function so that it can be called later.
+
+---
+
+### 20. What is callback hell and how to avoid it?
+<a id="what-is-callback-hell-and-how-to-avoid-it"></a>
+
+Callback hell happens when you have many nested callbacks — callbacks inside callbacks inside callbacks — and your code becomes very messy, hard to read, and hard to maintain.
+
+It looks something like this:
+
+```javascript
+doTask1(function(result1) {
+  doTask2(result1, function(result2) {
+    doTask3(result2, function(result3) {
+      doTask4(result3, function(result4) {
+        console.log('All tasks done!');
+      });
+    });
+  });
+});
+```
+It's hard to understand what's happening because it's so deeply nested (often called the "Pyramid of Doom").
+
+How to avoid callback hell?
+Here are 3 common ways:
+
+1. Modularize:
+
+- Break your callbacks into separate named functions instead of writing everything inline.
+
+Example:
+```javascript
+function task1Done(result1) { doTask2(result1, task2Done); }
+function task2Done(result2) { doTask3(result2, task3Done); }
+function task3Done(result3) { doTask4(result3, task4Done); }
+function task4Done(result4) { console.log('All tasks done!'); }
+
+doTask1(task1Done);
+```
+
+2. Use Promises:
+
+- Promises let you chain asynchronous operations in a cleaner way.
+
+Example:
+```javascript
+doTask1()
+  .then(result1 => doTask2(result1))
+  .then(result2 => doTask3(result2))
+  .then(result3 => doTask4(result3))
+  .then(result4 => console.log('All tasks done!'))
+  .catch(error => console.error(error));
+```
+
+3. Use async/await:
+
+- This is the cleanest and most modern way (built on top of promises).
+```javascript
+async function doAllTasks() {
+  try {
+    const result1 = await doTask1();
+    const result2 = await doTask2(result1);
+    const result3 = await doTask3(result2);
+    const result4 = await doTask4(result3);
+    console.log('All tasks done!');
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+doAllTasks();
+```
+
+---
+
+### 21. Differences between call(), apply(), and bind()
+<a id="call-apply-and-bind-differences"></a>
+
+1. call() → calls now, arguments one by one.
+```javascript
+function greet(greeting, name) {
+  console.log(greeting + ', ' + name);
+}
+
+greet.call(null, 'Hello', 'Alice'); 
+// Output: Hello, Alice
+```
+- 'this' is 'null' here (not important for this example).
+
+- Arguments passed individually.
+
+2. apply() → calls now, arguments in an array.
+```javascript
+greet.apply(null, ['Hello', 'Alice']); 
+// Output: Hello, Alice
+```
+- Same as 'call()', but arguments passed as an array.
+
+3. bind() → creates a new function, call later.
+```javascript
+const greetHello = greet.bind(null, 'Hello');
+greetHello('Alice');
+// Output: Hello, Alice
+```
+'bind()' returns a new function that can be called later.
+
+It locks the 'this' value and the first argument (greeting = 'Hello').
+
+---
+
+### 21. Arrow functions vs. bind() for this
+<a id="arrow-functions-vs-bind-for-this"></a>
+
+Features: 
+- 'this' behavior : Arrow Function Inherits 'this' from the surrounding (parent) scope on the other hand 'bind()' manually sets 'this' to a specific value
+- When 'this' is determined: Arrow Function-> At function definition time.  bind() -> At function creation/bind time
+- Syntax: Arrow Function -> Short and Clean. bind() -> Slightly longer (needs .bind(this))
+- Common Use: Arrow Function -> Best for callbacks, event handlers, methods in classes. bind()-> Useful when you want to reuse or delay a function with a fixed 'this'
+
+Example to make it clear:
+
+- Without arrow functions or bind:
+```javascript
+function Person() {
+  this.name = 'Alice';
+
+  setTimeout(function() {
+    console.log(this.name); // undefined 😵 (because 'this' points to global/window)
+  }, 1000);
+}
+
+new Person();
+```
+
+- Using 'bind(this)':
+```javascript
+function Person() {
+  this.name = 'Alice';
+
+  setTimeout(function() {
+    console.log(this.name); // Alice 😎
+  }.bind(this), 1000);
+}
+
+new Person();
+```
+
+- Using arrow function (easier!):
+```javascript
+function Person() {
+  this.name = 'Alice';
+
+  setTimeout(() => {
+    console.log(this.name); // Alice 😎
+  }, 1000);
+}
+
+new Person();
+```
+Arrow function automatically picks up this from Person, no need for .bind().
+
+If you're writing modern JavaScript (especially ES6+), prefer arrow functions for simplicity unless you specifically need '.bind()' for flexibility (like when you want to reuse a function with different 'this' values).
+
+---
 
 
 
