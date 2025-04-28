@@ -1118,7 +1118,7 @@ In Conclusion:
 
 The <html> tag is the root node.
 
-Tags like <body>, <h1>, <p>, and so on are child nodes.
+Tags like '<body>', '<h1>', '<p>', and so on are child nodes.
 
 
 <b>Manipulating the DOM with JavaScript</b>
