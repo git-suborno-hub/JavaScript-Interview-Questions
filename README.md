@@ -1116,11 +1116,6 @@ In Conclusion:
 
 - DOM Tree: The DOM organizes HTML elements in a hierarchical tree structure. Each element, attribute, and piece of text in the document becomes a node in the DOM tree.
 
-The ('<html>) tag is the root node.
-
-Tags like ('<body>', '<h1>', '<p>'), and so on are child nodes.
-
-
 <b>Manipulating the DOM with JavaScript</b>
 You can use JavaScript to manipulate the DOM and change the content, structure, and style of a webpage dynamically. This allows you to create interactive websites. Here's how to do it:
 
