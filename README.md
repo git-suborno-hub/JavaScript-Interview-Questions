@@ -1106,6 +1106,7 @@ In Conclusion:
 
 ---
 
+
 ## 🌐 DOM & Events
 
 ### 28. What is the DOM and how to manipulate it?
@@ -1115,6 +1116,7 @@ In Conclusion:
 - The DOM (Document Object Model) is a programming interface for web documents. It represents the structure of an HTML or XML document as a tree of objects, where each object corresponds to a part of the document (e.g., an element, attribute, or piece of text). The DOM allows programs to interact with the content, structure, and style of web pages dynamically.
 
 - DOM Tree: The DOM organizes HTML elements in a hierarchical tree structure. Each element, attribute, and piece of text in the document becomes a node in the DOM tree.
+
 
 <b>Manipulating the DOM with JavaScript</b>
 You can use JavaScript to manipulate the DOM and change the content, structure, and style of a webpage dynamically. This allows you to create interactive websites. Here's how to do it:
@@ -1157,7 +1159,7 @@ Selects all matching elements based on a CSS selector.
 const allParagraphs = document.querySelectorAll('p');
 ```
 
-2. Manipulating DOM Elements
+<b>2. Manipulating DOM Elements</b><br>
 Once you've selected an element, you can manipulate it in various ways. Here are some common methods:
 
 2.1. Changing Content
@@ -1212,7 +1214,7 @@ document.getElementById('myElement').classList.toggle('active');
 document.getElementById('myElement').style.backgroundColor = 'blue';
 ```
 
-3. Adding/Removing Elements
+<b>3. Adding/Removing Elements</b>
 You can also create new elements, add them to the document, or remove existing ones.
 
 3.1. Creating Elements
@@ -1239,7 +1241,7 @@ const child = document.getElementById('childElement');
 parent.removeChild(child);
 ```
 
-4. Handling Events
+<b>4. Handling Events</b>
 You can listen to user actions (clicks, key presses, etc.) and respond to them with JavaScript.
 
 4.1. Adding Event Listeners
@@ -1266,6 +1268,18 @@ button.removeEventListener('click', handleClick);
 ```
 
 ---
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
