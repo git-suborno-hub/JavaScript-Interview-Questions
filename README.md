@@ -1269,6 +1269,228 @@ button.removeEventListener('click', handleClick);
 
 ---
 
+### 29. Difference between Event bubbling and Capturing
+<a id="event-bubbling-vs-capturing"></a>
+
+Event bubbling and capturing are two phases in the event propagation mechanism in JavaScript when an event is triggered on an element. Here's the difference between the two:
+
+1. Event Bubbling (Default Behavior)
+- Order: The event starts from the innermost element (the target element) and propagates outward to the root element (typically the document or window).
+
+- How it works: When an event occurs, it triggers on the target element first and then "bubbles up" through its parent elements, all the way up to the root element.
+
+- Use case: This is useful for event delegation, where a single event listener can be placed on a parent element to handle events for its child elements.
+
+Example:
+
+```javascript
+document.getElementById("child").addEventListener("click", () => {
+  alert("Child clicked");
+});
+
+document.getElementById("parent").addEventListener("click", () => {
+  alert("Parent clicked");
+});
+```
+In this case, if the child is clicked, the "Child clicked" alert will appear first, and then the "Parent clicked" alert will show up as the event bubbles up.
+
+
+2. Event Capturing (also called "Trickling")
+- Order: The event starts from the root element and propagates inward to the target element.
+
+- How it works: The event is captured by the outermost elements first and then travels inward towards the target element.
+
+- Use case: This is less commonly used, but it can be useful when you want to handle the event before any inner elements can process it.
+
+Example:
+```javascript
+document.getElementById("parent").addEventListener("click", () => {
+  alert("Parent clicked");
+}, true); // "true" makes it capture the event during the capturing phase
+
+document.getElementById("child").addEventListener("click", () => {
+  alert("Child clicked");
+});
+```
+In this case, if the child is clicked, the "Parent clicked" alert will appear first because the event is captured before it reaches the child.
+
+---
+
+### 30. What is Event delegation?
+<a id="event-delegation"></a>
+
+Event delegation is a technique in JavaScript where you attach a single event listener to a parent element instead of attaching individual listeners to each child element. This approach takes advantage of event propagation (bubbling) to handle events for dynamically added or multiple child elements efficiently.
+
+How Event Delegation Works:
+- Attach a single event listener: Instead of adding separate event listeners to every child element, you add an event listener to a common parent element.
+
+- Event propagation: When an event is triggered on a child element, it bubbles up through its ancestors (parent elements) until it reaches the parent element with the event listener.
+
+- Check the target: Inside the event handler, you can check the event.target property to determine which child element was clicked or interacted with.
+
+Benefits of Event Delegation:
+
+- Improves performance: Instead of adding event listeners to multiple child elements, you add only one to their common parent. This is especially useful for a large number of child elements.
+
+- Handles dynamically added elements: If new child elements are added after the event listener is set up, the parent element still handles events for them, without needing to attach new listeners to each new element.
+
+- Reduces memory usage: Fewer event listeners are needed, saving memory.
+
+Example of Event Delegation:
+- Let's say you have a list of items, and you want to detect clicks on individual list items:
+
+```html
+<ul id="itemList">
+  <li>Item 1</li>
+  <li>Item 2</li>
+  <li>Item 3</li>
+</ul>
+
+<script>
+  // Parent element
+  const list = document.getElementById("itemList");
+
+  // Event listener on the parent element
+  list.addEventListener("click", function(event) {
+    // Check if the clicked target is an <li> element
+    if (event.target.tagName === "LI") {
+      alert("You clicked on " + event.target.textContent);
+    }
+  });
+</script>
+```
+In this example:
+
+- The 'click' event listener is attached to the 'ul' element (the parent).
+
+- When a list item ('li') is clicked, the event bubbles up to the 'ul' element, where the handler checks if the target element is a 'li' element using 'event.target'.
+
+- Even if new items are added to the list later, the event listener on the parent ('ul') will still work for them.
+
+Use Case:
+
+Event delegation is especially useful when:
+
+- You have a large number of elements (e.g., list items, table rows, etc.) and want to avoid adding event listeners to each one.
+
+- Your elements are dynamically created, so you can't predict all of them ahead of time.
+
+---
+
+## 🔁 Async & Execution Model
+
+### 31. Difference between Synchronous and Asynchronous code
+<a id="synchronous-vs-asynchronous-code"></a>
+
+<b>1. Synchronous Code:</b>
+
+- Execution Order: In synchronous code, tasks are executed one after another, in a sequential manner. Each operation must complete before the next one starts.
+
+- Blocking: Synchronous operations block the execution of subsequent code. If a task takes time (like reading a file or fetching data), it will block the entire program until it's done.
+
+- Use case: Synchronous code is suitable for tasks that are quick and don't need to interact with external resources or don't involve heavy computations.
+
+Example:
+```javascript
+console.log('Start');
+console.log('Middle');
+console.log('End');
+```
+Output:
+```sql
+Start
+Middle
+End
+```
+Each statement is executed in the order it's written, blocking the next one until the current task completes.
+
+<b>2. Asynchronous Code:</b>
+
+- Execution Order: In asynchronous code, tasks are executed independently of the main program flow. When an asynchronous task is called, it is handed off to the system (or an event loop) to be executed later, while the program continues with the next line of code.
+
+- Non-blocking: Asynchronous operations do not block the execution of subsequent code. This allows for more efficient handling of tasks that take time (like I/O operations or network requests).
+
+- Use case: Asynchronous code is used when tasks need to run in parallel, such as making HTTP requests, interacting with databases, or waiting for user input.
+
+Example using 'setTimeout' (asynchronous function):
+
+```javascript
+console.log('Start');
+setTimeout(() => {
+  console.log('Middle');
+}, 1000);
+console.log('End');
+```
+
+Output:
+```sql
+Start
+End
+Middle
+```
+- "Start" is printed first, followed by "End", and then after 1 second, "Middle" is printed. This happens because 'setTimeout' is asynchronous and does not block the rest of the code.
+
+<b>Synchronous</b> code runs sequentially and blocks the program until each task is completed.
+
+<b>Asynchronous</b> code allows the program to continue running while certain tasks are being handled in the background, enabling more efficient execution for tasks like I/O or network calls.
+
+
+---
+
+### 32. What is the Event Loop?
+<a id="what-is-the-event-loop"></a>
+
+The <b>event loop</b> allows JavaScript to run asynchronously, ensuring non-blocking behavior. It manages the execution of synchronous code, handles asynchronous operations, and processes the callback queue, making JavaScript efficient in handling tasks like I/O, animations, and network requests without freezing the main thread.
+
+---
+
+### 33. Difference between Microtasks and Macrotasks.
+<a id="microtasks-vs-macrotasks"></a>
+
+<b>Microtasks:</b>
+Microtasks are smaller tasks that have higher priority than macrotasks. They typically include tasks like resolved promises (.then(), catch(), and finally()), 'MutationObserver' callbacks, and 'async' functions. Microtasks are always executed <b>before</b> the event loop moves to the next macrotask, even if a macrotask is already waiting.
+
+- Execution Timing: After the synchronous code is executed and before any macrotask is processed, the event loop will first clear all the microtasks that have been queued. This ensures that any microtasks get completed before the browser does any other task, including rendering or handling macrotasks.
+
+- Examples:
+
+A promise '.then()' callback.
+
+An 'async' function's '.then()'.
+
+<b>Macrotasks:</b>
+Macrotasks are typically larger tasks that are placed in the <b>callback queue</b>. These include tasks such as 'setTimeout()', 'setInterval()', I/O operations, and events like user input or network responses. Macrotasks represent chunks of work that can be processed by the event loop after microtasks are completed.
+
+- Execution Timing: The event loop processes macrotasks one by one in the order they appear in the queue. It waits until all microtasks have been processed before moving to the next macrotask. If there are multiple macrotasks, the event loop will handle them one after the other, only interrupting with microtasks if any are pending.
+
+- Examples:
+
+setTimeout()
+
+setInterval()
+
+I/O operations (e.g., file reading, network requests)
+
+<b>Execution Order:</b>
+
+The event loop prioritizes microtasks over macrotasks. This means that if there are microtasks pending after the synchronous code execution, they will be executed before the event loop processes the next macrotask. Only after all microtasks are completed will the event loop begin handling the next macrotask.
+
+---
+
+### 34. What is a Promise?
+<a id="what-is-a-promise"></a>
+
+A Promise in JavaScript is an object that allows you to handle asynchronous operations in a more manageable and structured way. It has three states: pending, fulfilled, and rejected, and provides methods (then(), catch(), finally()) to handle the results of the operation or errors. By using promises, you can avoid callback hell and write more readable and maintainable asynchronous code.
+
+---
+
+
+
+
+
+
+
+
 
 
 
