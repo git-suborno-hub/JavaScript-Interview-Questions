@@ -799,5 +799,489 @@ If you're writing modern JavaScript (especially ES6+), prefer arrow functions fo
 
 ---
 
+### 23. What is an IIFE?
+<a id="what-is-an-iife"></a>
+
+An IIFE in JavaScript stands for Immediately Invoked Function Expression.
+
+It’s a function that runs immediately after it's defined.
+
+Here’s the basic syntax:
+
+```javascript
+(function() {
+  console.log("I run immediately!");
+})();
+```
+```javascript
+(() => {
+  console.log("I also run immediately, and I'm an arrow function!");
+})();
+```
+- The function is wrapped in parentheses to turn it into an expression.
+
+- Then it’s immediately invoked by the second pair of parentheses () right after it.
+
+- It’s often used to create a private scope — variables inside the IIFE don’t leak outside.
+
+---
+
+### 24. Difference between scope and lexical scope
+<a id="scope-vs-lexical-scope"></a>
+
+<b>Scope</b>
+- Scope means: "Where can I access a variable?"
+
+- It's about visibility — where a variable exists and where it doesn’t.
+
+```javascript
+function myFunction() {
+  const a = 10; // 'a' exists only inside this function
+  console.log(a); // ✅
+}
+console.log(a); // ❌ Error: 'a' is not defined
+```
+- Here, a has function scope — it’s only accessible inside myFunction.
+
+<b>Lexical Scope</b>
+- Lexical scope means: "Where a variable is available depends on where it was written in the code."
+
+- It’s determined at the time you write your code, not at runtime.
+
+- Inner functions can access variables of their parent functions because of lexical scoping.
+
+```javascript
+function outer() {
+  const b = 20;
+
+  function inner() {
+    console.log(b); //  inner can access b
+  }
+
+  inner();
+}
+
+outer();
+```
+- 'inner()' can access b because of lexical scope: it was written inside outer(), so it remembers the environment where it was created.
+
+---
+
+## 🧩 Control Flow & Iteration
+
+### 25. Explain for, for...in, for...of loop
+<a id="for-forin-vs-forof"></a>
+
+🔵 for loop (classic loop)
+- Used to loop a fixed number of times (usually over numbers or arrays by index).
+
+```javascript
+const fruits = ['apple', 'banana', 'cherry'];
+
+for (let i = 0; i < fruits.length; i++) {
+  console.log(fruits[i]);
+}
+// Output: apple, banana, cherry
+```
+Great when you need the <b>index(i)</b>
+
+🔵 for...in loop
+- Used to loop over object properties (keys).
+
+- Works on objects or arrays (but mainly used for objects).
+
+```javascript
+const person = { name: 'Alice', age: 25 };
+
+for (let key in person) {
+  console.log(key, person[key]);
+}
+// Output:
+// name Alice
+// age 25
+```
+- Loops keys of an object.
+-  If you use for...in on an array, it loops indexes (not values), which is not usually recommended.
+
+🔵 for...of loop
+
+- Used to loop over values directly in iterables (like arrays, strings, maps, sets).
+
+```javascript
+const fruits = ['apple', 'banana', 'cherry'];
+
+for (let fruit of fruits) {
+  console.log(fruit);
+}
+// Output: apple, banana, cherry
+```
+
+```javascript
+for (let char of 'hello') {
+  console.log(char);
+}
+// Output: h, e, l, l, o
+```
+- Loops values directly, much cleaner for arrays or strings!
+
+<b>When to use for, for...in, and for...of?</b>
+
+1. for loop
+
+Use when:
+
+- You need to loop over arrays or sequences where you know the number of iterations or want to access both index and value.
+
+- Classic for loop: when you need more control over loop counters and iteration conditions.
+
+2. for...in loop
+
+Use when:
+
+- You need to loop over object properties (keys), not values.
+
+- Best for objects or cases where you want to get all the keys of an object, including inherited ones.
+
+- Warning: Avoid using for...in on arrays because it loops over indexes as strings, and can also loop through additional properties added to the array.
+
+3. for...of loop
+
+Use when:
+
+- You need to loop over values in arrays, strings, or iterables (like Sets, Maps).
+
+- It’s cleaner than for...in for arrays because it doesn’t care about indexes, just the values.
+
+---
+
+### 26. Differences map(), forEach(), filter()
+<a id="map-foreach-filter-differences"></a>
+
+1. map()
+- Purpose: Creates a new array by transforming each element of the original array based on a function you provide.
+
+- Returns: A new array with the transformed values.
+
+- Use case: When you need to modify every item in the array and get a new array of the same length.
+```javascript
+const numbers = [1, 2, 3];
+const doubled = numbers.map(num => num * 2);
+
+console.log(doubled); // Output: [2, 4, 6]
+```
+
+2. forEach()
+- Purpose: Executes a function on each element of the array but does not return anything (i.e., returns undefined).
+
+- Returns: undefined (side effects only).
+
+- Use case: When you want to perform actions on each item in an array (e.g., logging, updating external variables, etc.) but don’t need a new array.
+
+```javascript
+const numbers = [1, 2, 3];
+numbers.forEach(num => console.log(num * 2));
+
+// Output: 
+// 2
+// 4
+// 6
+```
+
+3. filter()
+- Purpose: Creates a new array that only includes elements that satisfy a condition (the function returns true or false).
+
+-Returns: A new array with elements that meet the condition (may be a smaller array or empty).
+
+- Use case: When you need to select elements from an array that meet a specific condition.
+
+```javascript
+
+const numbers = [1, 2, 3, 4];
+const evenNumbers = numbers.filter(num => num % 2 === 0);
+
+console.log(evenNumbers); // Output: [2, 4]
+
+```
+
+---
+
+### 27. Use cases of map(), filter(), reduce()
+<a id="use-cases-of-map-filter-reduce"></a>
+
+1. map()
+
+<b>Use Case: Transforming Data</b>
+
+- When to use it:
+Use map() when you want to transform each item in an array and return a new array with the modified values.
+
+- Examples:
+
+Doubling Numbers: Transform an array of numbers by doubling each number.
+
+```javascript
+const numbers = [1, 2, 3, 4];
+const doubled = numbers.map(num => num * 2);
+console.log(doubled); // Output: [2, 4, 6, 8]
+```
+Extracting Data: When working with an array of objects, map() is often used to extract certain properties.
+
+```javascript
+const users = [
+  { name: 'Alice', age: 25 },
+  { name: 'Bob', age: 30 }
+];
+const names = users.map(user => user.name);
+console.log(names); // Output: ['Alice', 'Bob']
+```
+
+2. filter()
+
+<b>Use Case: Filtering Data</b>
+
+- When to use it:
+Use filter() when you want to select certain elements in an array based on a condition. It returns a new array containing only the elements that pass the condition.
+
+- Examples:
+
+Filtering Even Numbers: Select only the even numbers from an array.
+
+```
+const numbers = [1, 2, 3, 4, 5, 6];
+const evenNumbers = numbers.filter(num => num % 2 === 0);
+console.log(evenNumbers); // Output: [2, 4, 6]
+```
+Filtering Active Users: Filter out inactive users from a list.
+```javascript
+
+const users = [
+  { name: 'Alice', isActive: true },
+  { name: 'Bob', isActive: false }
+];
+const activeUsers = users.filter(user => user.isActive);
+console.log(activeUsers); // Output: [{ name: 'Alice', isActive: true }]
+```
+3. reduce()
+
+<b>Use Case: Accumulating or Combining Data</b>
+
+- When to use it:
+Use reduce() when you want to accumulate or combine all the elements of an array into a single value (like sum, product, or concatenation).
+
+- Examples:
+
+Summing Numbers: Calculate the sum of all numbers in an array.
+
+```javascript
+const numbers = [1, 2, 3, 4];
+const sum = numbers.reduce((accumulator, currentValue) => accumulator + currentValue, 0);
+console.log(sum); // Output: 10
+```
+
+Counting Occurrences: Count how many times each item appears in an array.
+```javascript
+const fruits = ['apple', 'banana', 'orange', 'apple', 'banana'];
+const fruitCount = fruits.reduce((acc, fruit) => {
+  acc[fruit] = (acc[fruit] || 0) + 1;
+  return acc;
+}, {});
+console.log(fruitCount); // Output: { apple: 2, banana: 2, orange: 1 }
+
+```
+Flattening an Array of Arrays: Flatten a nested array into a single array.
+
+```javascript
+
+const nestedArray = [[1, 2], [3, 4], [5, 6]];
+const flatArray = nestedArray.reduce((acc, current) => acc.concat(current), []);
+console.log(flatArray); // Output: [1, 2, 3, 4, 5, 6]
+
+In Conclusion:
+- map(): Use when you need to transform the array.
+
+- filter(): Use when you need to select elements based on a condition.
+
+- reduce(): Use when you need to combine or accumulate values into one result.
+
+---
+
+## 🌐 DOM & Events
+
+### 28. What is the DOM and how to manipulate it?
+<a id="what-is-the-dom-and-how-to-manipulate-it"></a>
+
+
+- The DOM (Document Object Model) is a programming interface for web documents. It represents the structure of an HTML or XML document as a tree of objects, where each object corresponds to a part of the document (e.g., an element, attribute, or piece of text). The DOM allows programs to interact with the content, structure, and style of web pages dynamically.
+
+- DOM Tree: The DOM organizes HTML elements in a hierarchical tree structure. Each element, attribute, and piece of text in the document becomes a node in the DOM tree.
+
+The <html> tag is the root node.
+
+Tags like <body>, <h1>, <p>, and so on are child nodes.
+
+
+<b>Manipulating the DOM with JavaScript</b>
+You can use JavaScript to manipulate the DOM and change the content, structure, and style of a webpage dynamically. This allows you to create interactive websites. Here's how to do it:
+
+1. Accessing DOM Elements
+You need to first select the DOM element(s) you want to manipulate. There are several methods to select elements:
+
+1.1. getElementById()
+Selects an element by its ID.
+
+```javascript
+const element = document.getElementById('myElement');
+```
+
+1.2. getElementsByClassName()
+Selects elements by their class name. This returns a live HTMLCollection.
+
+```javascript
+const elements = document.getElementsByClassName('myClass');
+```
+
+1.3. getElementsByTagName()
+Selects elements by their tag name.
+
+```javascript
+const paragraphs = document.getElementsByTagName('p');
+```
+
+1.4. querySelector()
+Selects the first matching element based on a CSS selector.
+
+```javascript
+const firstParagraph = document.querySelector('p');
+```
+
+1.5. querySelectorAll()
+Selects all matching elements based on a CSS selector.
+
+```javascript
+const allParagraphs = document.querySelectorAll('p');
+```
+
+2. Manipulating DOM Elements
+Once you've selected an element, you can manipulate it in various ways. Here are some common methods:
+
+2.1. Changing Content
+- innerText: Get or set the visible text content inside an element.
+
+```javascript
+document.getElementById('myElement').innerText = 'New content!';
+```
+- innerHTML: Get or set the HTML content inside an element (allows you to include HTML tags).
+```javascript
+document.getElementById('myElement').innerHTML = '<strong>Bold content</strong>';
+```
+
+2.2. Changing Attributes
+You can change attributes of an element like src, href, class, etc.
+
+- setAttribute(): Set an attribute.
+
+```javascript
+document.getElementById('myImage').setAttribute('src', 'newImage.jpg');
+```
+
+- getAttribute(): Get an attribute.
+
+```javascript
+const srcValue = document.getElementById('myImage').getAttribute('src');
+```
+
+2.3. Adding and Removing Classes
+- classList.add(): Add a class to an element.
+
+```javascript
+document.getElementById('myElement').classList.add('newClass');
+```
+
+-classList.remove(): Remove a class from an element.
+
+```javascript
+document.getElementById('myElement').classList.remove('oldClass');
+```
+
+- classList.toggle(): Add the class if it doesn't exist, or remove it if it does.
+
+```javascript
+document.getElementById('myElement').classList.toggle('active');
+```
+
+2.4. Changing Styles
+- style: Directly manipulate the inline CSS styles of an element.
+
+```javascript
+document.getElementById('myElement').style.backgroundColor = 'blue';
+```
+
+3. Adding/Removing Elements
+You can also create new elements, add them to the document, or remove existing ones.
+
+3.1. Creating Elements
+- createElement(): Creates a new element.
+
+```javascript
+const newDiv = document.createElement('div');
+newDiv.innerText = 'Hello, world!';
+```
+
+3.2. Adding Elements to the DOM
+- appendChild(): Adds a new child to an element.
+
+```javascript
+document.body.appendChild(newDiv);
+```
+
+3.3. Removing Elements
+- removeChild(): Removes a child from an element.
+
+```javascript
+const parent = document.getElementById('parentElement');
+const child = document.getElementById('childElement');
+parent.removeChild(child);
+```
+
+4. Handling Events
+You can listen to user actions (clicks, key presses, etc.) and respond to them with JavaScript.
+
+4.1. Adding Event Listeners
+- addEventListener(): Registers an event listener on an element.
+
+```javascript
+document.getElementById('myButton').addEventListener('click', function() {
+  alert('Button clicked!');
+});
+```
+
+4.2. Removing Event Listeners
+- removeEventListener(): Removes an event listener.
+
+```javascript
+const button = document.getElementById('myButton');
+const handleClick = function() {
+  alert('Button clicked!');
+};
+button.addEventListener('click', handleClick);
+
+// To remove the listener
+button.removeEventListener('click', handleClick);
+```
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
