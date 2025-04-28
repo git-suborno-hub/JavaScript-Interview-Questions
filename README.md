@@ -1484,36 +1484,1460 @@ A Promise in JavaScript is an object that allows you to handle asynchronous oper
 
 ---
 
+### 35. How async/await works?
+<a id="how-asyncawait-works"></a>
+
+<b>What is async/await?</b>
+- 'async/await' is a modern way to handle asynchronous operations (like fetching data from a server) in JavaScript.
+
+- It makes asynchronous code look and behave like synchronous (normal step-by-step) code — making it much easier to read and manage.
+
+<b>How does it work?</b>
+
+1. async keyword:
+
+- You put async before a function to make it return a promise automatically.
+
+- Even if you return a simple value, it wraps it in a promise.
+
+Example: 
+```javascript
+async function sayHello() {
+  return "Hello";
+}
+
+sayHello().then(alert);  // Alerts "Hello"
+```
+
+2. await keyword:
+
+- You use await inside an async function.
+
+- await pauses the function until the promise is settled (either fulfilled or rejected).
+
+- After the promise is settled, it resumes the function and gives you the result.
+
+Example: 
+```javascript
+async function getData() {
+  let response = await fetch('https://api.example.com/data');
+  let data = await response.json();
+  console.log(data);
+}
+```
+Here:
+
+- It waits for fetch() to complete.
+
+- Then it waits for response.json() to complete.
+
+- Then it prints the data.
+
+In short:
+- async = Marks a function that will work with promises.
+
+- await = Waits for a promise to resolve inside that async function.
+
+---
+
+### 36. How setTimeout() and setInterval() work?
+<a id="how-settimeout-and-setinterval-work"></a>
+
+<b>1. How setTimeout() works</b>
+
+- setTimeout() runs a function once after a delay.
+- It waits for the given time once, then executes the function.
+
+example:
+```javascript
+setTimeout(() => {
+  console.log("Hello after 2 seconds");
+}, 2000);
+```
+
+- After 2 seconds, it prints: Hello after 2 seconds.
+- It runs only once after the timer.
 
 
+<b>2. How setInterval() works</b>
+- setInterval() runs a function repeatedly, again and again at regular intervals.
+- It keeps running the function every given time until you stop it.
+
+```javascript
+setInterval(() => {
+  console.log("Hello every 2 seconds");
+}, 2000);
+```
+- Every 2 seconds, it prints: Hello every 2 seconds, forever until you stop it.
+
+<b>Stopping setTimeout() or setInterval()</b>
+
+- setTimeout can be canceled by clearTimeout(timerID).
+
+- setInterval can be canceled by clearInterval(timerID).
+
+Example with canceling interval:
+
+```javascript
+const intervalId = setInterval(() => {
+  console.log("Repeating...");
+}, 1000);
+
+// Stop after 5 seconds
+setTimeout(() => {
+  clearInterval(intervalId);
+  console.log("Stopped the interval!");
+}, 5000);
+```
+
+Prints "Repeating..." every second.
+
+After 5 seconds, it stops.
 
 
+<b>How they work behind the scenes</b>
+- JavaScript has an event loop and callback queue.
+
+- setTimeout and setInterval don't pause JavaScript.
+
+- They schedule the callback to run later.
+
+- JavaScript continues running the rest of the code meanwhile.
+
+- When the time is up, the callback function is put into the queue and executed when JavaScript is free.
+
+---
+
+### 37. Purpose of Promise.all(), Promise.any(), and Promise.race()
+<a id="purpose-of-promiseall-promiseany-and-promiserace"></a>
+
+👉 Promise.all()
+
+Purpose:
+
+- Wait for all promises to succeed (or fail if any one fails).
+
+- If all promises are successful, you get an array of their results.
+
+- If any promise fails, it immediately rejects.
+
+Example:
+```javascript
+Promise.all([
+  Promise.resolve(1),
+  Promise.resolve(2),
+  Promise.resolve(3)
+])
+.then(results => console.log(results))
+.catch(error => console.error(error));
+```
+Output:
+```csharp
+[1, 2, 3]
+```
+
+👉 Promise.any()
+
+Purpose:
+
+- Wait for any one promise to succeed.
+
+- It ignores failures unless all promises fail.
+
+- If at least one succeeds, you get its result.
+
+```javascript
+Promise.any([
+  Promise.reject("Error 1"),
+  Promise.resolve(2),
+  Promise.resolve(3)
+])
+.then(result => console.log(result))
+.catch(error => console.error(error));
+```
+Output:
+```
+2
+```
+✅ First successful promise gives the result.
+
+👉 Promise.race()
+
+Purpose:
+
+- Return the first settled promise (whether fulfilled or rejected).
+
+- Whichever promise settles first, that becomes the result.
+
+Example:
+```javascript
+Promise.race([
+  new Promise(resolve => setTimeout(resolve, 1000, "One")),
+  new Promise(resolve => setTimeout(resolve, 500, "Two"))
+])
+.then(result => console.log(result))
+.catch(error => console.error(error));
+```
+
+Output:
+```ngnix
+Two
+```
+✅ Two wins because it finished faster (after 500ms).
+
+---
+
+## 🧠 Concepts & Patterns
+
+### 38. What is immutability?
+<a id="what-is-immutability"></a>
+
+- In JavaScript, immutability means not changing the original value — instead, you create and work with new copies when you want to make changes.
+
+In simple words:
+
+- Immutable data cannot be changed once created.
+
+Why is immutability important?
+
+- Makes code predictable and easier to debug.
+
+- Helps in undo/redo functionality (like in apps).
+
+- Crucial in React.js and modern frontend frameworks.
+
+Common ways to achieve immutability in JS:
+
+- Use 'const' for variables.
+
+- Use methods like 'map(), filter(), slice()' that return new arrays.
+
+- Avoid methods like 'push(), splice(), sort()' that mutate the original array.
+
+---
+
+### 39. What is a pure function?
+<a id="what-is-a-pure-function"></a>
+
+A pure function in JavaScript (or in any programming language) is a function that:
+
+- Always gives the same output for the same input.
+
+- Does not change anything outside itself (no side effects).
+
+Example of a pure function:
+
+```javascript
+function add(a, b) {
+  return a + b;
+}
+
+console.log(add(2, 3)); // 5
+console.log(add(2, 3)); // 5 (always the same result)
+```
+Why Pure Functions are Important:
+- Easier to test and debug.
+
+- Make code predictable and safe.
+
+- Important for functional programming and libraries like React.
+
+---
+
+### 40. What is optional chaining (?.)?
+<a id="what-is-optional-chaining-"></a>
+
+<b>Optional chaining (?.)</b> is a feature in JavaScript that lets you safely access deeply nested properties without worrying if something in the chain is null or undefined.
+
+In simple words:
+
+It checks each step — if something is missing (null or undefined), it stops and returns undefined instead of throwing an error.
+
+Example without optional chaining:
+
+```javascript
+const user = {
+  name: "Alice",
+  address: {
+    city: "Wonderland"
+  }
+};
+
+console.log(user.address.city); // "Wonderland"
+console.log(user.profile.bio);  // ❌ Error! Cannot read property 'bio' of undefined
+```
+Same example using optional chaining:
+
+```javascript
+console.log(user.address?.city);   // "Wonderland"
+console.log(user.profile?.bio);    // undefined (no error, safely handled)
+```
+- user.profile is undefined, so user.profile?.bio becomes undefined automatically.
+
+- No crash! ✅
+
+Where you can use ?.
+- Access properties: obj?.prop
+
+- Call functions: obj.method?.()
+
+- Access array elements: arr?.[index]
+
+---
+
+### 41. What is nullish coalescing (??)?
+<a id="what-is-nullish-coalescing-"></a>
+
+- Nullish coalescing (??) is a feature in JavaScript that provides a default value when the left side is null or undefined.
+- If the value is null or undefined, ?? gives you something else (a backup/default value).
+
+Example:
+
+```javascript
+const username = null;
+const displayName = username ?? "Guest";
+
+console.log(displayName); // "Guest"
+```
+- Since username is null, it falls back to "Guest".
+
+<b>How it's different from || (OR operator):</b>
+
+'||' treats falsy values like 0, "" (empty string), false as well,
+but ?? only cares about null or undefined.
+
+---
+
+### 42. Difference between Shallow copy and Deep copy 
+<a id="shallow-copy-vs-deep-copy"></a>
+
+📚 Shallow Copy
+
+- Copies only the top-level of the object/array.
+
+- If the object contains other objects (nested), the inner objects are still shared (not copied).
+
+Example of Shallow Copy:
+
+```javascript
+Copy code
+const person = {
+  name: "Alice",
+  address: {
+    city: "Wonderland"
+  }
+};
+
+const shallowCopy = { ...person };
+
+shallowCopy.name = "Bob";           // ✅ Only changes shallowCopy
+shallowCopy.address.city = "Paris"; // ❗ Changes both shallowCopy AND person!
+
+console.log(person.address.city); // "Paris" (affected!)
+```
+
+- 'name' change is safe (copied value).
+
+- But 'address.city' change affects the original too!
+- because only the reference to 'address' was copied, not the inner object itself.
+
+📚 Deep Copy
+
+- Copies everything, including nested objects.
+
+- The original and the copy are completely independent.
+
+Example of Deep Copy:
+
+```javascript
+Copy code
+const person = {
+  name: "Alice",
+  address: {
+    city: "Wonderland"
+  }
+};
+
+// Deep Copy (one simple way using JSON)
+const deepCopy = JSON.parse(JSON.stringify(person));
+
+deepCopy.name = "Bob";           // ✅ Changes deepCopy only
+deepCopy.address.city = "Paris"; // ✅ Changes deepCopy only
+
+console.log(person.address.city); // "Wonderland" (original untouched!)
+```
+
+- Now, changes inside address don't affect person.
+
+- Full separation ✅
+
+🔵 In one sentence:
+
+Shallow copy = surface copy only;
+Deep copy = full independent copy.
+
+---
+
+### 43. JavaScript modules: import/export
+<a id="javascript-modules-importexport"></a>
+
+🧩 What are JavaScript Modules?
+In JavaScript, modules mean splitting your code into separate files (each handling a specific task) and sharing code between them.
+
+This keeps your code:
+
+- Organized
+
+- Reusable
+
+- Easier to maintain
+
+<b>1. export — Sending something out</b>
+
+You use export when you want to make something available outside the current file.
+
+There are two types of export:
+
+- Named Export — export multiple things by name
+
+- Default Export — export one main thing
+
+<b>2. import — Bringing something in</b>
+You use 'import' when you want to use exported stuff from another file.
+
+<b>Importing Named Exports</b>
+```javascript
+import { add, subtract } from './math.js';
+
+console.log(add(2, 3));      // 5
+console.log(subtract(5, 2)); // 3
+```
+- Use {} to import named exports.
+
+- Names must match exactly.
+
+<b>Importing Default Export</b>
+
+```javascript
+import greet from './greet.js';
+
+console.log(greet("Alice")); // "Hello, Alice!"
+```
+- No {} needed.
+
+- You can give any name to the default import.
+
+<b>Important points:</b>
+- File extension should be .js or .mjs (for modules).
+- In HTML, when linking the JS file, use:
+```html
+<script type="module" src="app.js"></script>
+```
+- Relative paths (./ or ../) are important when importing.
+
+---
+
+### 44. Error handling with try/catch/finally
+<a id="error-handling-with-trycatchfinally"></a>
+
+🧠 Why handle errors?
+When something unexpected happens (like a wrong input, missing data, etc.), you don't want your app to crash 🚨.
+You want to catch the error and handle it gracefully (like showing a nice message).
+
+That’s where try/catch/finally comes in.
+
+🔥 Basic Syntax
+```javascript
+try {
+  // code that might throw an error
+} catch (error) {
+  // code to handle the error
+} finally {
+  // (optional) code that runs no matter what
+}
+```
+
+📦 Example:
+```javascript
+try {
+  let result = 10 / 0;
+  console.log("Result:", result);
+
+  throw new Error("Something went wrong!"); // Manually throwing an error
+} catch (error) {
+  console.log("Caught an error:", error.message);
+} finally {
+  console.log("This block always runs.");
+}
+```
+🧩 Output:
+
+```vbnet
+
+Result: Infinity
+Caught an error: Something went wrong!
+This block always runs.
+```
+✨ What each part does:
+
+try -> Try to run the risky code
+catch -> If an error happens, catch it and handle it
+finally -> Always runs, whether there was an error or not (cleanup etc.)
+
+🧨 A Real-world Example:
+Imagine you are trying to parse some JSON:
+
+```javascript
+
+const jsonString = '{"name": "Alice"}'; // Correct JSON
+
+try {
+  const user = JSON.parse(jsonString);
+  console.log(user.name); // "Alice"
+} catch (error) {
+  console.log("Invalid JSON format!");
+} finally {
+  console.log("Parsing attempt finished.");
+}
+```
+
+If the 'jsonString' was broken (like missing a quote), the 'catch' would grab the error without crashing your app.
+
+🛠 Important points:
+
+- catch(error) → the error object gives information about what went wrong.
+
+- finally block always runs:
+
+whether there is an error
+
+or no error
+
+- You can even throw your own custom errors using throw.
+
+Example:
+
+```javascript
+throw new Error("Custom error message");
+```
+🔵 In one sentence:
+
+try to do something risky ➔ catch the problem if it happens ➔ finally always clean up afterward.
+
+---
+
+### 45. What is the typeof operator?
+<a id="what-is-the-typeof-operator"></a>
+
+The typeof operator is used to check the data type of a value. It returns a string describing the type.
+
+Basic Syntax:
+```javascript
+typeof value
+```
+```javascript
+console.log(typeof "Hello"); // "string"
+console.log(typeof 123);     // "number"
+console.log(typeof true);    // "boolean"
+console.log(typeof {});      // "object"
+console.log(typeof []);      // "object"  ❗ (Arrays are technically objects)
+console.log(typeof undefined); // "undefined"
+console.log(typeof null);      // "object" ❗ (strange historical bug)
+console.log(typeof function() {}); // "function"
+```
+🛠 Important things to remember:
+- typeof null returns "object" — this is a bug in JavaScript from the very beginning!
+
+- Arrays are also objects → use Array.isArray() if you want to specifically detect an array.
+
+- typeof NaN (Not-a-Number) is "number", because NaN is still a number type internally.
+
+---
+
+## 💡 Advanced JavaScript
 
 
+### 46. What is the prototype chain?
+<a id="what-is-the-prototype-chain"></a>
 
+🧠 What is the Prototype Chain in JavaScript?
+The prototype chain is a system in JavaScript where objects inherit properties and methods from other objects.
 
+✅ In simple words:
+If you try to access a property on an object and it doesn’t exist there, JavaScript will look up the chain (on its prototype) to find it.
 
+Basic Example:
+```javascript
 
+const person = {
+  greet() {
+    console.log("Hello!");
+  }
+};
 
+const student = Object.create(person);
 
+student.study = function() {
+  console.log("Studying...");
+};
+student.greet();  // "Hello!" (inherited from person)
+student.study();  // "Studying..." (own method)
+```
+✅ student didn't have a greet() method directly,
+so JavaScript looked at student's prototype → found greet() on person.
 
+How the Chain Works:
+Imagine it like a ladder:
 
+```plaintext
 
+student → person → Object.prototype → null
+```
+- student looks for greet.
 
+- If not found, it checks its prototype (person).
 
+- If still not found, it checks Object.prototype.
 
+- If nowhere found, it returns undefined.
 
+✨ A Real-world Analogy:
+Imagine you are looking for a book 📚:
 
+- First, you check your own bookshelf (your own properties).
 
+- If it's not there, you check your parent's bookshelf (prototype).
 
+- If still not found, you check the town library (Object.prototype).
 
+- If nowhere, then you give up (null).
 
+Quick Summary:
+- Every object has an internal link to another object called its prototype.
 
+- This prototype chain is what enables inheritance in JavaScript.
 
+- The search for properties/methods moves up the chain until found or it hits null.
 
+---
 
+### 47. Memory management & garbage collection
+<a id="memory-management--garbage-collection"></a>
 
+🧠 Memory Management in JavaScript
+In simple words:
+✅ Memory management = controlling how your program allocates and frees up memory.
 
+Your code creates variables, objects, functions, etc., and they all consume memory.
+At some point, when you're done with them, that memory needs to be reclaimed to avoid memory leaks (bad for performance).
 
+Good news:
 
+👉 In JavaScript, memory management is automatic.
+👉 The JavaScript Engine (like V8 in Chrome, Node.js) handles it for you using Garbage Collection.
 
+🗑️ What is Garbage Collection?
+Garbage collection (GC) is the process where JavaScript automatically finds and removes values from memory that are no longer needed.
+
+✅ When an object is no longer reachable, it is removed by the garbage collector.
+
+📚 How JavaScript decides what to delete?
+
+✅ JavaScript uses a simple concept called Reachability:
+
+- A value is considered reachable if it can be accessed somehow.
+
+- If a value becomes unreachable, it becomes "garbage" → ready to be cleaned up.
+
+🔥 Example:
+
+```javascript
+
+let user = {
+  name: "Alice"
+};
+
+user = null; // The object { name: "Alice" } becomes unreachable.
+```
+
+- Initially, { name: "Alice" } is reachable through user.
+
+- When we set user = null, there's no reference to that object anymore.
+
+- Now it's garbage collected automatically!
+
+🧩 In short:
+
+Reachable -> Still accessible → stays in memory.
+Unreachable -> No references → removed from memory.
+Garbage Collector -> The tool that finds unreachable data and deletes it.
+
+🧠 Some Common Reachable Values
+
+- Local variables and parameters in a function currently running
+
+- Global variables
+
+- Any value that is still referenced from those
+
+Quick Summary:
+
+JavaScript automatically manages memory by allocating it when objects are created and reclaiming it when they become unreachable through garbage collection.
+You don’t have to manually free memory — but you do have to code carefully to avoid leaks!
+
+---
+
+### 48. Difference between Object.freeze() and Object.seal()
+<a id="memory-management--garbage-collection"></a>
+
+Both are methods used to restrict changes to an object, but they have different levels of strictness.
+
+🔥 Object.freeze()
+✅ Makes an object completely immutable.
+
+- You cannot add new properties.
+
+- You cannot remove existing properties.
+
+- You cannot change (modify) existing property values.
+
+- You cannot reconfigure property attributes (like making writable: false, etc.).
+
+The object becomes totally locked.
+
+Example:
+```javascript
+const user = {
+  name: "Alice"
+};
+
+Object.freeze(user);
+
+user.name = "Bob"; //  Can't modify
+user.age = 30;     //  Can't add new property
+delete user.name;  //  Can't delete
+
+console.log(user); 
+// { name: "Alice" }
+```
+
+🔥 Object.seal()
+✅ Allows modifications to existing properties, but no adding or removing.
+
+- You can change (modify) existing property values.
+
+- You cannot add new properties.
+
+- You cannot delete properties.
+
+- You cannot reconfigure properties (make them writable: false, etc.).
+
+The object is sealed — structure can't change, but contents can update.
+
+Example: 
+```javascript
+const user = {
+  name: "Alice"
+};
+
+Object.seal(user);
+
+user.name = "Bob"; // Can modify existing
+user.age = 30;     // Can't add new property
+delete user.name;  // Can't delete property
+
+console.log(user); 
+// { name: "Bob" }
+```
+
+- Freeze = Frozen solid ❄️ (can't change anything!)
+
+- Seal = Sealed container 📦 (can't add/remove, but you can edit inside)
+
+Object.freeze() locks everything; Object.seal() locks the object's structure but allows changes to values.
+
+---
+
+### 49. Explain Object.keys(), values(), entries()
+<a id="objectkeys-values-entries"></a>
+
+1. Object.keys(obj)
+✅ Returns an array of the object’s property names (keys).
+
+Example:
+```javascript
+const user = {
+  name: "Alice",
+  age: 25,
+  city: "Paris"
+};
+console.log(Object.keys(user));
+// Output: ["name", "age", "city"]
+```
+
+2. Object.values(obj)
+✅ Returns an array of the object’s property values.
+
+Example:
+```javascript
+
+console.log(Object.values(user));
+// Output: ["Alice", 25, "Paris"]
+```
+
+3. Object.entries(obj)
+
+✅ Returns an array of [key, value] pairs.
+
+Each pair is itself a small array: [key, value].
+
+Example:
+```javascript
+
+console.log(Object.entries(user));
+/*
+Output:
+[
+  ["name", "Alice"],
+  ["age", 25],
+  ["city", "Paris"]
+]
+*/
+```
+✨ Use Cases:
+- Object.keys() → loop through property names.
+
+- Object.values() → loop through values.
+
+- Object.entries() → loop through both keys and values easily.
+
+---
+
+### 50. What is a memory leak and how to avoid it?
+<a id="what-is-a-memory-leak-and-how-to-avoid-it"></a>
+
+✅ Memory leak = when your program keeps holding on to memory that it no longer needs.
+
+Even though the data is useless, the JavaScript engine cannot free that memory because something (like a variable or reference) is still pointing to it.
+
+Over time, memory usage grows → performance slows down  → maybe even crashes!
+
+-  Example of a memory leak:
+
+```javascript
+
+let user = {
+  name: "Alice"
+};
+
+let unused = user; // Another reference
+
+user = null; // But 'unused' still holds the object!
+
+// The { name: "Alice" } object is STILL in memory because 'unused' points to it.
+```
+
+<b>Common Causes of Memory Leaks:</b>
+
+- Global variables -> Unnecessary variables on window/global
+- Forgotten timers/listeners -> setInterval, event listeners not cleared
+- Detached DOM elements	-> DOM elements removed visually but still referenced in JS
+- Closures holding too much data -> Functions unintentionally keeping old data alive
+
+<b>How to Avoid Memory Leaks?</b>
+
+Best practices:
+
+- Avoid unnecessary global variables.
+
+- Clear timers and intervals when no longer needed.
+
+- Remove event listeners when elements are deleted.
+
+- Nullify references manually if needed (someVar = null).
+
+- Be careful with closures (don't keep huge objects inside closures if not needed).
+
+- Use modern tools like React, Vue, etc. carefully — they have built-in cleaning mechanisms (e.g., useEffect cleanup functions in React).
+
+---
+
+### 51. What are WeakMap and WeakSet?
+<a id="what-are-weakmap-and-weakset"></a>
+
+1. WeakMap
+✅ A WeakMap is like a Map, but:
+
+- Keys must be objects (not primitives like strings or numbers).
+
+- Keys are held weakly (they don’t prevent garbage collection).
+
+- No .size, no .keys(), no iteration — for safety.
+
+Example:
+
+```javascript
+const weakMap = new WeakMap();
+
+let user = { name: "Alice" };
+
+weakMap.set(user, "User Data");
+
+console.log(weakMap.get(user)); // "User Data"
+
+user = null; // Now the { name: "Alice" } object can be garbage collected!
+
+// weakMap will automatically remove the entry behind the scenes!
+```
+
+-user's object gets garbage collected automatically because WeakMap doesn't stop it.
+
+2. WeakSet:
+
+✅ A WeakSet is like a Set, but:
+
+- Only stores objects, not primitive values.
+
+- Objects are held weakly.
+
+- No .size, no iteration methods — again for safety.
+
+Example:
+
+```javascript
+const weakSet = new WeakSet();
+
+let car = { brand: "Tesla" };
+
+weakSet.add(car);
+
+console.log(weakSet.has(car)); // true
+
+car = null; // Now the { brand: "Tesla" } object can be garbage collected!
+```
+- After car = null, the object disappears from WeakSet automatically.
+
+✨ Why use WeakMap/WeakSet?
+- Private Data: Attach hidden info to objects (without preventing GC).
+
+- Memory-efficient Caching: Cache based on objects without risking memory leaks.
+
+- DOM Node Tracking: Manage DOM elements without holding them if they are removed.
+
+<b>Important points:</b>
+
+- You cannot loop (forEach, for..of) over WeakMaps/WeakSets.
+
+- They are mostly used internally in libraries and frameworks — but knowing them is important for understanding efficient memory use!
+
+---
+
+### 52. Difference between Stack and Heap memory
+<a id="stack-vs-heap-memory"></a>
+
+<b>Stack:</b>
+- Think of it like a pile of plates.
+
+- When a function is called, its local variables are pushed onto the stack.
+
+- When the function ends, it pops off and frees memory automatically.
+
+- Fast, but limited in size.
+
+✅ Example (stack memory):
+
+```javascript
+function add(a, b) {
+  let result = a + b; // 'result' is stored in the stack
+  return result;
+}
+```
+Numbers (a, b, result) are primitives → go into stack.
+
+<b>Heap:</b>
+- Think of it like a big messy warehouse.
+
+- Objects, arrays, and functions are stored in the heap.
+
+- You access them via references (pointers).
+
+- Slower, but can handle big data.
+
+✅ Example (heap memory):
+
+```javascript
+let user = { name: "Alice", age: 25 };
+```
+
+- The object { name: "Alice", age: 25 } lives in the heap, and user holds a reference (address) to it in the stack.
+
+<b>How Stack and Heap work together:</b>
+- Primitive types → stored directly in the stack.
+
+- Reference types → the reference (address) is stored in the stack, but the actual object/array is stored in the heap.
+
+---
+
+### 53. Difference between Debouncing and Throttling
+<a id="debouncing-vs-throttling"></a>
+
+<b>What is Debouncing?</b>
+
+Debouncing means waiting until the user stops doing something for a certain amount of time, and then taking action.
+
+- Suppose you are typing in a search bar.
+
+- Every time you press a key, the website could search — but that would be very wasteful!
+
+- Instead, debouncing says:
+👉 "Wait until the user has stopped typing for 500ms, and then perform the search."
+
+If the user keeps typing fast, the timer keeps resetting, and the action doesn’t happen yet.
+
+Example:
+
+```javascript
+function debounce(func, delay) {
+  let timer;
+  return function() {
+    clearTimeout(timer);
+    timer = setTimeout(func, delay);
+  };
+}
+
+const search = debounce(() => console.log('Searching...'), 500);
+```
+Every time you type, it resets the clock.
+
+<b>What is Throttling?</b>
+Throttling means limiting how often an action can happen, even if the user keeps triggering it.
+
+- Imagine a user is scrolling the page really fast.
+
+- Without throttling, the scroll event could fire hundreds of times per second, which is very heavy!
+
+- Throttling says:
+👉 "Only run the scroll function once every 100ms, no matter how many times scrolling happens."
+Example:
+
+```javascript
+function throttle(func, limit) {
+  let inThrottle;
+  return function() {
+    if (!inThrottle) {
+      func();
+      inThrottle = true;
+      setTimeout(() => inThrottle = false, limit);
+    }
+  };
+}
+
+const handleScroll = throttle(() => console.log('Scrolling...'), 100);
+```
+Even if the user scrolls madly, the function runs only once every 100ms.
+
+<b>Quick way to remember:<b>
+- Debounce = “Wait until the action stops, then fire once.”
+
+- Throttle = “Keep firing, but not too often.”
+
+---
+
+### 54. How the new keyword works?
+<a id="how-the-new-keyword-works"></a>
+
+When you use the 'new' keyword with a function, it creates a new object and sets it up based on that function.
+
+It does 4 important things automatically behind the scenes:
+
+<b>Step-by-Step</b>
+- Create a new empty object {}.
+
+- Set the prototype of that object to be the prototype of the constructor function.
+
+→ (This connects the new object to methods defined on the constructor's .prototype.)
+
+- Call the constructor function with this set to the new object.
+
+→ (It allows the function to add properties/methods onto the new object.)
+
+- Return the new object unless the constructor returns its own object.
+
+<b>Simple Example:</b>
+
+```javascript
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+}
+
+const user = new Person('Alice', 25);
+
+console.log(user); // { name: 'Alice', age: 25 }
+```
+
+So,The 'new' keyword automates the creation of a new object, sets up inheritance, runs the constructor function, and returns the new object. 
+
+---
+
+### 55. Common JS design patterns
+<a id="common-js-design-patterns"></a>
+
+<b>1. Module Pattern</b>
+- Purpose: Organize related code together, hide internal details, and expose only what’s needed.
+
+Used a lot to create private variables and methods.
+
+```javascript
+
+const Counter = (function() {
+  let count = 0;
+
+  return {
+    increment() { count++; console.log(count); },
+    decrement() { count--; console.log(count); }
+  };
+})();
+
+Counter.increment(); // 1
+Counter.increment(); // 2
+Counter.decrement(); // 1
+```
+👉 count is private. Only increment and decrement can modify it.
+
+<b>2. Singleton Pattern</b>
+Purpose: Make sure only one instance of something exists.
+
+Useful for managing global states (e.g., app settings, user session).
+
+```javascript
+
+const AppSettings = (function() {
+  let instance;
+
+  function createInstance() {
+    return { theme: 'dark', version: '1.0' };
+  }
+
+  return {
+    getInstance() {
+      if (!instance) {
+        instance = createInstance();
+      }
+      return instance;
+    }
+  };
+})();
+
+const settings1 = AppSettings.getInstance();
+const settings2 = AppSettings.getInstance();
+
+console.log(settings1 === settings2); // true
+```
+👉 Only one settings object is created.
+
+<b>3. Factory Pattern</b>
+Purpose: Create different types of objects using the same interface.
+
+You don't have to manually use new everywhere — useful when object creation is complex.
+
+```javascript
+
+function Car(type) {
+  if (type === 'electric') {
+    return { type: 'Electric Car', battery: '100%' };
+  } else {
+    return { type: 'Gas Car', fuel: 'Full' };
+  }
+}
+
+const car1 = Car('electric');
+const car2 = Car('gas');
+
+console.log(car1, car2);
+```
+👉 The factory decides what type of object to return.
+
+<b>4. Observer Pattern</b>
+Purpose: When one object changes, automatically notify others.
+
+Used in event systems, real-time apps, chat apps, etc.
+
+```javascript
+
+class Subject {
+  constructor() {
+    this.observers = [];
+  }
+
+  subscribe(fn) {
+    this.observers.push(fn);
+  }
+
+  unsubscribe(fn) {
+    this.observers = this.observers.filter(observer => observer !== fn);
+  }
+
+  notify(data) {
+    this.observers.forEach(observer => observer(data));
+  }
+}
+
+const subject = new Subject();
+
+function logger(data) {
+  console.log('Logger:', data);
+}
+
+subject.subscribe(logger);
+subject.notify('Hello Observers!'); // Logger: Hello Observers!
+```
+👉 Subject notifies all subscribed observers when something happens.
+
+<b>5. Prototype Pattern</b>
+Purpose: Share common methods across instances to save memory.
+
+Used heavily in OOP (Object-Oriented Programming) in JavaScript.
+
+```javascript
+
+function Dog(name) {
+  this.name = name;
+}
+
+Dog.prototype.bark = function() {
+  console.log(this.name + ' says woof!');
+};
+
+const dog1 = new Dog('Buddy');
+dog1.bark(); // Buddy says woof!
+```
+👉 bark is not copied to every dog — it's shared through prototype.
+
+<b>Summary in One Line:</b>
+- Module → Organize and hide details.
+
+- Singleton → Only one instance allowed.
+
+- Factory → Create objects easily.
+
+- Observer → Subscribe and react to changes.
+
+- Prototype → Share methods efficiently.
+
+---
+
+### 56. Difference between Deep equality ans Strict equality
+<a id="deep-equality-vs-strict-equality"></a>
+
+<b>What is Strict Equality (===)?</b>
+- Strict equality checks if two values are exactly the same in both type and value.
+
+- It does NOT look inside objects or arrays — it just checks if they refer to the same thing.
+
+👉 Example:
+
+```javascript
+
+2 === 2;          // true
+'hello' === 'hello'; // true
+2 === '2';        // false (different types)
+```
+For objects or arrays:
+
+```javascript
+
+const obj1 = { a: 1 };
+const obj2 = { a: 1 };
+
+console.log(obj1 === obj2); // false
+```
+Even though obj1 and obj2 have the same content, they are different objects in memory — so === says false.
+
+<b>What is Deep Equality?</b>
+- Deep equality means comparing the actual content inside two values.
+
+- It recursively checks all properties if they are equal in value.
+
+👉 Example:
+
+```javascript
+
+const obj1 = { a: 1, b: { c: 2 } };
+const obj2 = { a: 1, b: { c: 2 } };
+
+console.log(deepEqual(obj1, obj2)); // true
+```
+(You would need a custom function like deepEqual or a library like lodash to perform deep equality.)
+
+Simple deep equality function:
+
+```javascript
+
+function deepEqual(a, b) {
+  if (a === b) return true;
+
+  if (typeof a !== 'object' || typeof b !== 'object' || a == null || b == null) {
+    return false;
+  }
+
+  let keysA = Object.keys(a);
+  let keysB = Object.keys(b);
+
+  if (keysA.length !== keysB.length) return false;
+
+  for (let key of keysA) {
+    if (!keysB.includes(key) || !deepEqual(a[key], b[key])) {
+      return false;
+    }
+  }
+
+  return true;
+}
+```
+In short:
+- Strict equality (===) → Direct comparison. Fast.
+(Does not check inside objects/arrays.)
+
+- Deep equality → Content comparison.
+(Recursively checks properties inside.)
+
+---
+
+### 57. How the JS engine works internally?
+<a id="how-the-js-engine-works-internally"></a>
+
+When you run JavaScript code, the JavaScript engine (like V8 in Chrome, SpiderMonkey in Firefox) does several important jobs step by step:
+
+<b>1. Parsing</b>
+- The engine reads your code, checks for errors, and converts it into an intermediate structure called the Abstract Syntax Tree (AST).
+
+- Think of the AST like a map of your code's meaning — it helps the engine understand what your program wants to do.
+
+Example:
+```javascript
+const a = 5;
+```
+
+<b>2. Compilation (Just-In-Time Compilation - JIT)</b>
+- JavaScript engines use Just-In-Time (JIT) Compilation.
+
+- Instead of interpreting line-by-line or compiling everything before running, JIT does both:
+
+Quickly interpret code and start running it immediately.
+
+Meanwhile, optimize parts of the code that are used a lot (hot code).
+
+- This makes JavaScript fast without needing you to manually compile it.
+
+<b>3. Execution</b>
+- After parsing and compiling, the engine executes the code.
+
+- Execution happens inside something called the Call Stack.
+
+The Call Stack:
+
+- It keeps track of which function is currently running.
+
+- When a function is called, it's pushed onto the stack.
+
+- When a function finishes, it's popped off the stack.
+
+Example:
+
+```javascript
+function greet() {
+  console.log('Hello!');
+}
+greet();
+```
+- greet() is added to the call stack.
+
+- console.log() is added.
+
+- After logging, console.log() and greet() are removed.
+
+<b>4. Memory Management</b>
+- JS engines allocate memory when variables and objects are created.
+
+- Later, they free up memory automatically when data is no longer used — this is Garbage Collection.
+
+⚙️ What important components are inside a JS Engine?
+
+- Memory Heap → Where memory allocation happens.
+
+- Call Stack → Where function calls are tracked.
+
+- Web APIs (in browsers) → Like setTimeout, fetch, etc., handled outside the engine.
+
+- Callback Queue → Functions waiting to be executed (especially from asynchronous tasks).
+
+- Event Loop → Continuously checks if the Call Stack is empty and moves tasks from Callback Queue into Call Stack.
+
+---
+
+### 58. Difference between Generators and Iterators
+<a id="generators-vs-iterators"></a>
+
+First: What are Iterators?
+
+- An iterator is any object that has a .next() method.
+
+- Every call to .next() returns an object like { value: something, done: true/false }.
+
+- You can manually control the flow by calling .next().
+
+👉 Example of a custom iterator:
+
+```javascript
+
+function createIterator(array) {
+  let index = 0;
+
+  return {
+    next: function() {
+      if (index < array.length) {
+        return { value: array[index++], done: false };
+      } else {
+        return { done: true };
+      }
+    }
+  };
+}
+
+const iterator = createIterator(['a', 'b', 'c']);
+
+console.log(iterator.next()); // { value: 'a', done: false }
+console.log(iterator.next()); // { value: 'b', done: false }
+console.log(iterator.next()); // { value: 'c', done: false }
+console.log(iterator.next()); // { done: true }
+```
+
+🔹 You manually define how it moves through data.
+
+Second: What are Generators?
+
+- A generator is a special type of function that automatically creates an iterator.
+
+- You define it with a function* and use the yield keyword to "pause" and "resume" the function.
+
+- Much easier and cleaner than writing manual iterators!
+
+👉 Example of a generator:
+
+```javascript
+
+function* generatorFunction() {
+  yield 'a';
+  yield 'b';
+  yield 'c';
+}
+
+const gen = generatorFunction();
+
+console.log(gen.next()); // { value: 'a', done: false }
+console.log(gen.next()); // { value: 'b', done: false }
+console.log(gen.next()); // { value: 'c', done: false }
+console.log(gen.next()); // { value: undefined, done: true }
+```
+🔹 Generator functions take care of creating an iterator and managing the done status for you.
