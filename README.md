@@ -1095,6 +1095,7 @@ Flattening an Array of Arrays: Flatten a nested array into a single array.
 const nestedArray = [[1, 2], [3, 4], [5, 6]];
 const flatArray = nestedArray.reduce((acc, current) => acc.concat(current), []);
 console.log(flatArray); // Output: [1, 2, 3, 4, 5, 6]
+```
 
 In Conclusion:
 - map(): Use when you need to transform the array.
